@@ -27,7 +27,7 @@ def load_and_clean_data():
     # Clean: Handle missing values and type conversion
     df["population"] = df["population"].fillna(0).astype(int)
     df["median_income"] = df["median_income"].replace("-666666666", None).fillna(df["median_income"].mean()).astype(float)
-    df["state"] = df["state"].map({"53": "WA", "06": "CA"})  # Map state codes
+    df["state"] = df["state"].astype(str).map({"53": "WA", "06": "CA"}).fillna("Unknown")
     
     # Connect to database
     conn = sqlite3.connect("demographics.db")
