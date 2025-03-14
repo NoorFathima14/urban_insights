@@ -61,14 +61,27 @@ def get_cities():
     cursor.execute("SELECT name, population, median_age, white_pop, black_pop, native_pop, hs_grad, bachelors, labor_force, unemployed, median_income, median_home_value, state FROM cities")
     rows = cursor.fetchall()
     conn.close()
-    return [{
-        "name": row[0], "population": row[1], "median_age": row[2],
-        "white_pop": row[3], "black_pop": row[4], "native_pop": row[5],
-        "hs_grad": row[6], "bachelors": row[7],
-        "labor_force": row[8], "unemployed": row[9],
-        "median_income": row[10], "median_home_value": row[11],
-        "state": row[12]
-    } for row in rows]
+    
+    transformed_data = []
+    for row in rows:
+        population = row[1] or 1  # Avoid division by zero
+        labor_force = row[8] or 1  # Avoid division by zero
+        data = {
+            "name": row[0],
+            "population": row[1],
+            "median_age": row[2],
+            "white_pop_pct": round((row[3] / population) * 100,2) if row[3] else 0,
+            "black_pop_pct": round((row[4] / population) * 100,2) if row[4] else 0,
+            "native_pop_pct": round((row[5] / population) * 100,2) if row[5] else 0,
+            "hs_grad_pct": round((row[6] / population) * 100,2) if row[6] else 0,
+            "bachelors_pct": round((row[7] / population) * 100,2) if row[7] else 0,
+            "unemployment_rate": round((row[9] / labor_force) * 100,2) if row[9] else 0,
+            "median_income": row[10],
+            "median_home_value": row[11],
+            "state": row[12]
+        }
+        transformed_data.append(data)
+    return transformed_data
 
 if __name__ == "__main__":
     init_db()

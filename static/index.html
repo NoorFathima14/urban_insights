@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Urban Insights Explorer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Urban Insights Explorer</h1>
+    <div class="controls">
+        <label for="source">Data Source:</label>
+        <select id="source">
+            <option value="WA">Washington</option>
+            <option value="CA">California</option>
+            <option value="whitepop">Cities with White Pop > 30</option>
+        </select>
+        <label for="attribute">Attribute (Hold Ctrl/Cmd for multiple):</label>
+        <select id="attribute" multiple size="5">
+            <option value="population">Population</option>
+            <option value="median_age">Median Age</option>
+            <option value="white_pop">White Population</option>
+            <option value="white_pop_pct">White Population (%)</option>
+            <option value="black_pop_pct">Black Population (%)</option>
+            <option value="native_pop_pct">Native Population (%)</option>
+            <option value="hs_grad_pct">High School Grads (%)</option>
+            <option value="bachelors_pct">Bachelor’s Degrees (%)</option>
+            <option value="unemployment_rate">Unemployment Rate (%)</option>
+            <option value="median_income">Median Income</option>
+            <option value="median_home_value">Median Home Value</option>
+        </select>
+        <label for="chartType">Chart Type:</label>
+        <select id="chartType">
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+            <option value="pie">Pie</option>
+        </select>
+        <label for="limit">Max Rows:</label>
+        <input type="number" id="limit" value="10" min="1" max="50">
+        <button onclick="updateDashboard()">Update</button>
+    </div>
+    <div class="dashboard">
+        <canvas id="chart" width="800" height="400"></canvas>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th id="attributeHeader">Attribute</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
